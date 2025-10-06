@@ -1,9 +1,49 @@
-
 import { Profile, Job } from '../types';
 
 interface N8nResponse {
   responseText: string;
   jobs?: Job[];
+}
+
+interface TestResponse {
+    success: boolean;
+    error?: string;
+}
+
+export const testN8nConnection = async (url: string): Promise<TestResponse> => {
+    if (!url) {
+        return { success: false, error: 'URL is empty.' };
+    }
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ testConnection: true }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Server responded with ${response.status}`);
+        }
+        
+        // Check if the response seems valid, assuming n8n might return something.
+        const data = await response.json();
+        if (typeof data !== 'object') {
+             throw new Error('Invalid response from server.');
+        }
+
+        return { success: true };
+
+    } catch (error) {
+        if (error instanceof TypeError) {
+             return { success: false, error: 'Network error or invalid URL.' };
+        }
+        if (error instanceof Error) {
+            return { success: false, error: error.message };
+        }
+        return { success: false, error: 'An unknown error occurred.' };
+    }
 }
 
 export const callN8nWebhook = async (

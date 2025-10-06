@@ -1,15 +1,17 @@
-
 import React from 'react';
 import { Job } from '../types';
 import { BuildingOfficeIcon, MapPinIcon, ArrowTopRightOnSquareIcon } from './Icons';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface JobCardProps {
   job: Job;
 }
 
 const JobCard: React.FC<JobCardProps> = ({ job }) => {
+  const { theme } = useTheme();
+
   return (
-    <div className="bg-slate-800/70 border border-slate-600 rounded-lg p-4 transition-all hover:border-cyan-500/50 hover:shadow-lg hover:shadow-cyan-500/10">
+    <div className={`bg-slate-800/70 border border-slate-600 rounded-lg p-4 transition-all ${theme.accent.borderHover} ${theme.accent.shadowHover}`}>
       <div className="flex justify-between items-start">
         <div>
           <h3 className="font-bold text-slate-100">{job.title}</h3>
@@ -26,7 +28,7 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
           href={job.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center text-sm font-medium text-cyan-400 hover:text-cyan-300 transition-colors bg-slate-700/50 px-3 py-1.5 rounded-md"
+          className={`flex items-center text-sm font-medium ${theme.accent.text} ${theme.accent.textHover} transition-colors bg-slate-700/50 px-3 py-1.5 rounded-md`}
         >
           Apply
           <ArrowTopRightOnSquareIcon className="h-4 w-4 ml-1.5" />

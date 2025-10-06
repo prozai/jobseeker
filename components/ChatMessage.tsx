@@ -1,8 +1,8 @@
-
 import React from 'react';
 import { Message, Role } from '../types';
 import JobCard from './JobCard';
 import { UserIcon, AiIcon } from './Icons';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface ChatMessageProps {
   message: Message;
@@ -10,15 +10,16 @@ interface ChatMessageProps {
 
 const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
   const isUser = message.role === Role.User;
+  const { theme } = useTheme();
 
   return (
     <div className={`flex items-start gap-4 ${isUser ? 'justify-end' : ''}`}>
       {!isUser && (
-        <div className="flex-shrink-0 h-8 w-8 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center">
+        <div className={`flex-shrink-0 h-8 w-8 rounded-full ${theme.aiIcon.background} flex items-center justify-center`}>
           <AiIcon className="h-5 w-5 text-white" />
         </div>
       )}
-      <div className={`max-w-xl rounded-xl p-4 ${isUser ? 'bg-blue-600/80' : 'bg-slate-700'}`}>
+      <div className={`max-w-xl rounded-xl p-4 ${isUser ? theme.userMessage.background : 'bg-slate-700'}`}>
         <p className="whitespace-pre-wrap">{message.content}</p>
         {message.jobs && message.jobs.length > 0 && (
           <div className="mt-4 grid grid-cols-1 gap-4">
