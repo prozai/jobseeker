@@ -1,0 +1,5 @@
+{
+  "name": "Job Seeker AI",
+  "description": "An interactive AI-powered job seeking application that connects to an n8n webhook for agentic RAG capabilities, helping you find and tailor applications for your next career move.",
+  "requestFramePermissions": []
+}
